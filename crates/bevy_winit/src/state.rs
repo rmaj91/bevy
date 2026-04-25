@@ -190,11 +190,8 @@ impl ApplicationHandler<WinitUserEvent> for WinitAppRunnerState {
 
         match event {
             WinitUserEvent::WakeUp => {
-                if cfg!(not(target_arch = "wasm32")) {
-                    self.redraw_requested = true;
-                } else {
-                    self.run_app_update();
-                }
+                self.redraw_requested = true;
+                self.ran_update_since_last_redraw = false;
             }
             WinitUserEvent::WindowAdded => {
                 let mut create_window =
